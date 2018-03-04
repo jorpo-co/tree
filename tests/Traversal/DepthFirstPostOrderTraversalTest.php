@@ -40,7 +40,7 @@ class DepthFirstPostOrderTraversalTest extends TestCase
         $e->addChild($g = new Node('G'));
         $f->addChild($h = new Node('H'));
 
-        $this->assertSame([$d, $h, $f, $g, $e, $b, $c, $a], $traversal->sort($a));
+        $this->assertSame([$d, $h, $f, $g, $e, $b, $c, $a], $traversal->sort($a)->toArray());
     }
 
     public function testShouldTraverseNodeTree()

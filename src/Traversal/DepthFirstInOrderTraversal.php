@@ -2,6 +2,8 @@
 
 namespace Jorpo\Tree\Traversal;
 
+use Ds\Stack;
+use Ds\Vector;
 use Jorpo\Tree\Node\Node;
 
 class DepthFirstInOrderTraversal implements TraversalAlgorithm
@@ -14,10 +16,10 @@ class DepthFirstInOrderTraversal implements TraversalAlgorithm
      */
     public function sort(Node $node)
     {
-        $nodes = [];
+        $nodes = new Vector;
 
         $this->traverse($node, function (Node $node) use (&$nodes) {
-            $nodes[] = $node;
+            $nodes->push($node);
         });
 
         return $nodes;
@@ -31,19 +33,19 @@ class DepthFirstInOrderTraversal implements TraversalAlgorithm
      */
     public function traverse(Node $node, callable $callback)
     {
-        $stack = [];
+        $stack = new Stack;
 
-        while (!empty($stack) || null !== $node) {
+        while (!$stack->isEmpty() || null !== $node) {
             if (null !== $node) {
-                array_push($stack, $node);
+                $stack->push($node);
                 $children = $node->getChildren();
-                $node = array_shift($children);
+                $node = !$children->isEmpty() ? $children->shift() : null;
             } else {
-                $node = array_pop($stack);
+                $node = $stack->pop();
                 $callback($node);
                 $children = $node->getChildren();
-                array_shift($children);
-                $node = array_shift($children);
+                // $children->shift();
+                $node = !$children->isEmpty() ? $children->shift() : null;
             }
         }
     }

@@ -2,6 +2,8 @@
 
 namespace Jorpo\Tree\Node;
 
+use Ds\Vector;
+
 class Node
 {
     /**
@@ -10,7 +12,7 @@ class Node
     private $value;
 
     /**
-     * @var Node[]
+     * @var Vector
      */
     private $children;
 
@@ -25,7 +27,7 @@ class Node
     public function __construct($value = null)
     {
         $this->value = $value;
-        $this->children = [];
+        $this->children = new Vector;
     }
 
     /**
@@ -55,7 +57,7 @@ class Node
      */
     public function addChild(Node $child)
     {
-        $this->children[] = $child;
+        $this->children->push($child);
         $child->setParent($this);
     }
 
@@ -66,7 +68,7 @@ class Node
      */
     public function setChildren(array $children)
     {
-        $this->children = [];
+        $this->children->clear();
 
         foreach ($children as $child) {
             $this->addChild($child);
@@ -75,12 +77,11 @@ class Node
 
     public function removeChild(Node $child)
     {
-        foreach ($this->children as $key => $myChild) {
+        foreach ($this->children as $index => $myChild) {
             if ($child == $myChild) {
-                unset($this->children[$key]);
+                $this->children->remove($index);
             }
         }
-        $this->children = array_values($this->children);
     }
 
     /**
@@ -88,7 +89,7 @@ class Node
      */
     public function removeChildren()
     {
-        $this->children = [];
+        $this->children->clear();
     }
 
     /**
@@ -128,7 +129,7 @@ class Node
      */
     public function isLeaf()
     {
-        return empty($this->children);
+        return $this->children->isEmpty();
     }
 
     /**
@@ -138,7 +139,7 @@ class Node
      */
     public function isBranch()
     {
-        return !empty($this->children);
+        return !$this->children->isEmpty();
     }
 
     /**
@@ -184,11 +185,11 @@ class Node
      */
     public function getAncestors()
     {
-        $ancestors = [];
+        $ancestors = new Vector;
         $node = $this;
 
         while ($parent = $node->getParent()) {
-            $ancestors[] = $parent;
+            $ancestors->push($parent);
             $node = $parent;
         }
 
@@ -203,8 +204,9 @@ class Node
     public function getAncestorsAndSelf()
     {
         $ancestors = $this->getAncestors();
+        $ancestors->unshift($this);
 
-        return array_merge([$this], $ancestors);
+        return $ancestors;
     }
 
     /**
@@ -217,11 +219,9 @@ class Node
         $siblings = $this->getParent()->getChildren();
         $current = $this;
 
-        return array_values(
-            array_filter($siblings, function ($item) use ($current) {
-                return $item != $current;
-            })
-        );
+        return $siblings->filter(function ($sibling) use ($current) {
+            return $sibling != $current;
+        });
     }
 
     /**

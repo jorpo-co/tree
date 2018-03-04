@@ -2,6 +2,7 @@
 
 namespace Jorpo\Tree\Traversal;
 
+use Ds\Vector;
 use Jorpo\Tree\Node\Node;
 
 class DepthFirstPostOrderTraversal implements TraversalAlgorithm
@@ -14,10 +15,10 @@ class DepthFirstPostOrderTraversal implements TraversalAlgorithm
      */
     public function sort(Node $node)
     {
-        $nodes = [];
+        $nodes = new Vector;
 
         $this->traverse($node, function (Node $node) use (&$nodes) {
-            $nodes[] = $node;
+            $nodes->push($node);
         });
 
         return $nodes;

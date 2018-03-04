@@ -2,6 +2,8 @@
 
 namespace Jorpo\Tree\Traversal;
 
+use Ds\Vector;
+use Ds\Queue;
 use Jorpo\Tree\Node\Node;
 
 /**
@@ -27,10 +29,10 @@ class BreadthFirstTraversal implements TraversalAlgorithm
      */
     public function sort(Node $node)
     {
-        $nodes = [];
+        $nodes = new Vector;
 
         $this->traverse($node, function (Node $node) use (&$nodes) {
-            $nodes[] = $node;
+            $nodes->push($node);
         });
 
         return $nodes;
@@ -45,12 +47,12 @@ class BreadthFirstTraversal implements TraversalAlgorithm
      */
     public function traverse(Node $node, callable $callback)
     {
-        $queue = [$node];
+        $queue = new Queue([$node]);
 
-        while (!empty($queue)) {
-            $node = array_shift($queue);
+        while (!$queue->isEmpty()) {
+            $node = $queue->pop();
             $callback($node);
-            $queue = array_merge($queue, $node->getChildren());
+            $queue->push(...$node->getChildren()->toArray());
         }
     }
 }

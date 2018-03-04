@@ -104,10 +104,10 @@ class BuilderTest extends TestCase
             ->end();
         $node = $builder->getCurrentNode();
 
-        $this->assertSame(['a'], $this->childrenValues($node->getChildren()));
+        $this->assertSame(['a'], $this->childrenValues($node->getChildren()->toArray()));
 
-        $subtree = $node->getChildren()[0];
-        $this->assertSame(['b', 'c'], $this->childrenValues($subtree->getChildren()));
+        $subtree = $node->getChildren()->toArray()[0];
+        $this->assertSame(['b', 'c'], $this->childrenValues($subtree->getChildren()->toArray()));
     }
 
     public function testShouldCreateNodeInstanceByValue()

@@ -3,6 +3,7 @@
 namespace Jorpo\Tree\Node;
 
 use StdClass;
+use Ds\Set;
 use PHPUnit\Framework\TestCase;
 
 class NodeTest extends TestCase
@@ -40,7 +41,7 @@ class NodeTest extends TestCase
         $node->addChild($child2 = new Node('child2'));
         $node->addChild($child3 = new Node('child3'));
 
-        $this->assertSame([$child1, $child2, $child3], $node->getChildren());
+        $this->assertSame([$child1, $child2, $child3], $node->getChildren()->toArray());
     }
 
     public function testShouldReplaceChildNodes()
@@ -50,8 +51,8 @@ class NodeTest extends TestCase
 
         $node->setChildren([$child2 = new Node('child2')]);
 
-        $this->assertFalse(in_array($child1, $node->getChildren()));
-        $this->assertTrue(in_array($child2, $node->getChildren()));
+        $this->assertFalse(in_array($child1, $node->getChildren()->toArray()));
+        $this->assertTrue(in_array($child2, $node->getChildren()->toArray()));
     }
 
     public function testShouldRemoveChildNodes()
@@ -60,15 +61,15 @@ class NodeTest extends TestCase
         $node->addChild($child1 = new Node('child1'));
         $node->addChild($child2 = new Node('child2'));
 
-        $this->assertTrue(in_array($child1, $node->getChildren()));
-        $this->assertTrue(in_array($child2, $node->getChildren()));
+        $this->assertTrue(in_array($child1, $node->getChildren()->toArray()));
+        $this->assertTrue(in_array($child2, $node->getChildren()->toArray()));
 
         $node->removeChild($child1);
-        $this->assertFalse(in_array($child1, $node->getChildren()));
-        $this->assertTrue(in_array($child2, $node->getChildren()));
+        $this->assertFalse(in_array($child1, $node->getChildren()->toArray()));
+        $this->assertTrue(in_array($child2, $node->getChildren()->toArray()));
 
         $node->removeChildren();
-        $this->assertTrue(empty($node->getChildren()));
+        $this->assertTrue(empty($node->getChildren()->toArray()));
     }
 
     public function testShouldBeLeafNodeWhenHasNoChildren()
@@ -127,7 +128,7 @@ class NodeTest extends TestCase
         $child1->addChild($child2 = new Node('child2'));
         $child2->addChild($child3 = new Node('child3'));
 
-        $this->assertSame([$child2, $child1, $root], $child3->getAncestors());
+        $this->assertSame([$child2, $child1, $root], $child3->getAncestors()->toArray());
     }
 
     public function testShouldReturnAncestorNodesWithSelf()
@@ -137,7 +138,7 @@ class NodeTest extends TestCase
         $child1->addChild($child2 = new Node('child2'));
         $child2->addChild($child3 = new Node('child3'));
 
-        $this->assertSame([$child3, $child2, $child1, $root], $child3->getAncestorsAndSelf());
+        $this->assertSame([$child3, $child2, $child1, $root], $child3->getAncestorsAndSelf()->toArray());
     }
 
     public function testShouldReturnSiblingNodes()
@@ -147,7 +148,7 @@ class NodeTest extends TestCase
         $node->addChild($child2 = new Node('child2'));
         $node->addChild($child3 = new Node('child3'));
 
-        $this->assertSame([$child1, $child3], $child2->getSiblings());
+        $this->assertSame([$child1, $child3], $child2->getSiblings()->toArray());
     }
 
     public function testShouldReturnSiblingNodesWithSelf()
@@ -157,7 +158,7 @@ class NodeTest extends TestCase
         $node->addChild($child2 = new Node('child2'));
         $node->addChild($child3 = new Node('child3'));
 
-        $this->assertSame([$child1, $child2, $child3], $child2->getSiblingsAndSelf());
+        $this->assertSame([$child1, $child2, $child3], $child2->getSiblingsAndSelf()->toArray());
     }
 
     public function testShouldReturnSizeOfTree()

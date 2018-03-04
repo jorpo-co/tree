@@ -17,7 +17,7 @@ use Jorpo\Tree\Node\Node;
  *            /
  *           H
  *
- *    A, B, C, D, E, F, G
+ *    A, B, C, D, E, F, G, H
  */
 class BreadthFirstTraversalTest extends TestCase
 {
@@ -40,7 +40,7 @@ class BreadthFirstTraversalTest extends TestCase
         $e->addChild($g = new Node('G'));
         $f->addChild($h = new Node('H'));
 
-        $this->assertSame([$a, $b, $c, $d, $e, $f, $g, $h], $traversal->sort($a));
+        $this->assertSame([$a, $b, $c, $d, $e, $f, $g, $h], $traversal->sort($a)->toArray());
     }
 
     public function testShouldTraverseNodeTree()
