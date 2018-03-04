@@ -1,0 +1,36 @@
+{
+    "name": "jorpo/php-tree",
+    "description": "Traversable Tree in PHP",
+    "authors": [
+        {
+            "name": "John Porter",
+            "email": "john.porter@designermonkey.co.uk"
+        }
+    ],
+    "autoload-dev": {
+        "psr-4": {
+            "Jorpo\\Tree\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.4",
+        "squizlabs/php_codesniffer": "^2.5",
+        "theseer/phpdox": "^0.9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jorpo\\Tree\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^7"
+    },
+    "scripts": {
+        "test": [
+            "@phpunit",
+            "@phpcs"
+        ],
+        "phpunit": "php vendor/bin/phpunit",
+        "phpcs": "php vendor/bin/phpcs"
+    }
+}
