@@ -1,9 +1,9 @@
 <?php
 
-namespace Jorpo\Tree\Builder;
+namespace Jorpo\Tree;
 
 use PHPUnit\Framework\TestCase;
-use Jorpo\Tree\Node\Node;
+use Jorpo\Tree\Node;
 
 class BuilderTest extends TestCase
 {
@@ -11,24 +11,24 @@ class BuilderTest extends TestCase
 
     public function setUp()
     {
-        $this->builder = new Builder;
+        $this->builder = new TreeBuilder;
     }
 
     public function testShouldCreateEmptyNodeIfNotSpecifiedInConstructor()
     {
-        $builder = new Builder;
+        $builder = new TreeBuilder;
         $this->assertNull($builder->getCurrentNode()->getValue());
     }
 
     public function testShouldAllowNodeInConstructor()
     {
-        $builder = new Builder($node = new Node('node'));
+        $builder = new TreeBuilder($node = new Node('node'));
         $this->assertSame($node, $builder->getCurrentNode());
     }
 
     public function testShouldSetRootNodeAndGetRootNode()
     {
-        $builder = new Builder;
+        $builder = new TreeBuilder;
 
         $builder->setRootNode($node1 = new Node('node1'));
         $this->assertSame($node1, $builder->getCurrentNode());
@@ -39,7 +39,7 @@ class BuilderTest extends TestCase
 
     public function testShouldAddLeafNode()
     {
-        $builder = new Builder;
+        $builder = new TreeBuilder;
 
         $builder->leaf('a')->leaf('b');
         $children = $builder->getCurrentNode()->getChildren();
@@ -50,7 +50,7 @@ class BuilderTest extends TestCase
 
     public function testShouldAddMultipleLeaves()
     {
-        $builder = new Builder;
+        $builder = new TreeBuilder;
 
         $builder->leaves('a', 'b');
         $children = $builder->getCurrentNode()->getChildren();
@@ -61,7 +61,7 @@ class BuilderTest extends TestCase
 
     public function testShouldAddBranchNodes()
     {
-        $builder = new Builder;
+        $builder = new TreeBuilder;
 
         $builder->branch('a')->branch('b');
         $this->assertSame('b', $builder->getCurrentNode()->getValue());
@@ -69,7 +69,7 @@ class BuilderTest extends TestCase
 
     public function testShouldEndCurrentBranch()
     {
-        $builder = new Builder;
+        $builder = new TreeBuilder;
 
         $builder
             ->value('root')
@@ -87,7 +87,7 @@ class BuilderTest extends TestCase
 
     public function testShouldGetValue()
     {
-        $builder = new Builder;
+        $builder = new TreeBuilder;
 
         $builder->value('foo')->value('bar');
         $this->assertSame('bar', $builder->getCurrentNode()->getValue());
@@ -95,7 +95,7 @@ class BuilderTest extends TestCase
 
     public function testShouldAddNewNodeAsChildOfTheParentNode()
     {
-        $builder = new Builder;
+        $builder = new TreeBuilder;
         $builder
             ->value('root')
             ->branch('a')
@@ -110,11 +110,11 @@ class BuilderTest extends TestCase
         $this->assertSame(['b', 'c'], $this->childrenValues($subtree->getChildren()->toArray()));
     }
 
-    public function testShouldCreateNodeInstanceByValue()
+    public function testShouldCreatenodeFromValue()
     {
-        $builder = new Builder;
+        $builder = new TreeBuilder;
 
-        $node = $builder->nodeInstanceByValue('baz');
+        $node = $builder->nodeFromValue('baz');
         $this->assertSame('baz', $node->getValue());
         $this->assertInstanceOf(Node::class, $node);
     }

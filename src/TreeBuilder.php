@@ -1,13 +1,14 @@
 <?php
 
-namespace Jorpo\Tree\Builder;
+namespace Jorpo\Tree;
 
-use Jorpo\Tree\Node\Node;
+use Ds\Stack;
+use Jorpo\Tree\Node;
 
-class Builder
+class TreeBuilder
 {
     /**
-     * @var Node[]
+     * @var Stack
      */
     private $stack;
 
@@ -16,9 +17,9 @@ class Builder
      */
     public function __construct($node = null)
     {
-        $this->stack = [];
+        $this->stack = new Stack;
 
-        $this->setRootNode($node ?: $this->nodeInstanceByValue());
+        $this->setRootNode($node ?? $this->nodeFromValue());
     }
 
     /**
@@ -38,7 +39,7 @@ class Builder
      */
     public function getCurrentNode()
     {
-        return $this->stack[count($this->stack) - 1];
+        return $this->stack->peek();
     }
 
     /**
@@ -47,7 +48,7 @@ class Builder
     public function leaf($value = null)
     {
         $this->getCurrentNode()->addChild(
-            $this->nodeInstanceByValue($value)
+            $this->nodeFromValue($value)
         );
 
         return $this;
@@ -56,9 +57,9 @@ class Builder
     /**
      * Add multiple leaf nodes
      */
-    public function leaves($value1 /*,  $value2, ... */)
+    public function leaves(...$values)
     {
-        foreach (func_get_args() as $value) {
+        foreach ($values as $value) {
             $this->leaf($value);
         }
 
@@ -70,7 +71,7 @@ class Builder
      */
     public function branch($value = null)
     {
-        $this->getCurrentNode()->addChild($node = $this->nodeInstanceByValue($value));
+        $this->getCurrentNode()->addChild($node = $this->nodeFromValue($value));
         $this->pushNode($node);
 
         return $this;
@@ -89,7 +90,7 @@ class Builder
     /**
      * Create a node instance from a value
      */
-    public function nodeInstanceByValue($value = null)
+    public function nodeFromValue($value = null)
     {
         return new Node($value);
     }
@@ -106,18 +107,20 @@ class Builder
 
     private function emptyStack()
     {
-        $this->stack = [];
+        $this->stack->clear();
+
         return $this;
     }
 
     private function pushNode(Node $node)
     {
-        array_push($this->stack, $node);
+        $this->stack->push($node);
+
         return $this;
     }
 
     private function popNode()
     {
-        return array_pop($this->stack);
+        return $this->stack->pop();
     }
 }

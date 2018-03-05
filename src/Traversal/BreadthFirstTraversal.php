@@ -4,7 +4,7 @@ namespace Jorpo\Tree\Traversal;
 
 use Ds\Vector;
 use Ds\Queue;
-use Jorpo\Tree\Node\Node;
+use Jorpo\Tree\Node;
 
 /**
  *               A

@@ -3,7 +3,7 @@
 namespace Jorpo\Tree\Traversal;
 
 use Ds\Vector;
-use Jorpo\Tree\Node\Node;
+use Jorpo\Tree\Node;
 
 class DepthFirstPostOrderTraversal implements TraversalAlgorithm
 {

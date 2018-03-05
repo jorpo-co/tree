@@ -4,7 +4,7 @@ namespace Jorpo\Tree\Traversal;
 
 use StdClass;
 use PHPUnit\Framework\TestCase;
-use Jorpo\Tree\Node\Node;
+use Jorpo\Tree\Node;
 
 /**
  *               A

@@ -2,7 +2,7 @@
 
 namespace Jorpo\Tree\Traversal;
 
-use Jorpo\Tree\Node\Node;
+use Jorpo\Tree\Node;
 
 interface TraversalAlgorithm
 {

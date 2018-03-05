@@ -1,6 +1,6 @@
 <?php
 
-namespace Jorpo\Tree\Node;
+namespace Jorpo\Tree;
 
 use StdClass;
 use Ds\Set;
