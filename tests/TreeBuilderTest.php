@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Jorpo\Tree;
 
@@ -9,7 +9,7 @@ class BuilderTest extends TestCase
 {
     protected $builder;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->builder = new TreeBuilder;
     }

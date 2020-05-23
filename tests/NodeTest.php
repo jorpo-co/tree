@@ -1,9 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Jorpo\Tree;
 
 use StdClass;
-use Ds\Set;
 use PHPUnit\Framework\TestCase;
 
 class NodeTest extends TestCase

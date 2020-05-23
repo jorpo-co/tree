@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Jorpo\Tree\Traversal;
+namespace Jorpo\Tree\Traversal\DepthFirst;
 
 use Ds\Vector;
-use Ds\Queue;
 use Jorpo\Tree\Node;
+use Jorpo\Tree\Traversal\TraversalAlgorithm;
 
-class BreadthFirstTraversal implements TraversalAlgorithm
+class PostOrderTraversal implements TraversalAlgorithm
 {
     public function sort(Node $node): array
     {
@@ -21,12 +21,16 @@ class BreadthFirstTraversal implements TraversalAlgorithm
 
     public function traverse(Node $node, callable $callback): void
     {
-        $queue = new Queue([$node]);
+        foreach ($node->getChildren() as $child) {
+            if ($child->isBranch()) {
+                $this->traverse($child, $callback);
+            }
 
-        while (!$queue->isEmpty()) {
-            $node = $queue->pop();
+            $callback($child);
+        }
+
+        if ($node->isRoot()) {
             $callback($node);
-            $queue->push(...$node->getChildren()->toArray());
         }
     }
 }

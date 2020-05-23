@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Jorpo\Tree\Traversal;
+namespace Jorpo\Tree\Traversal\DepthFirst;
+
+use Jorpo\Tree\Traversal\AlgorithmTestCase;
 
 /**
  *               A
@@ -13,22 +15,22 @@ namespace Jorpo\Tree\Traversal;
  *            /
  *           H
  *
- *    A, B, C, D, E, F, G, H
+ *    D, B, H, F, E, G, A, C
  */
-class BreadthFirstTraversalTest extends AlgorithmTestCase
+class InOrderTraversalTest extends AlgorithmTestCase
 {
     public function testThatAlgorithmSortsNodeTree()
     {
-        $traversal = new BreadthFirstTraversal;
+        $traversal = new InOrderTraversal;
 
         list($a, $b, $c, $d, $e, $f, $g, $h) = $this->buildNodeTree();
 
-        $this->assertSame([$a, $b, $c, $d, $e, $f, $g, $h], $traversal->sort($a));
+        $this->assertSame([$d, $b, $h, $f, $e, $g, $a, $c], $traversal->sort($a));
     }
 
     public function testThatAlgorithmTraversesNodeTree()
     {
-        $traversal = new BreadthFirstTraversal;
+        $traversal = new InOrderTraversal;
 
         list($a) = $this->buildNodeTree();
         $traversed = "";
@@ -37,6 +39,6 @@ class BreadthFirstTraversalTest extends AlgorithmTestCase
             $traversed .= $node->getValue();
         });
 
-        $this->assertSame('ABCDEFGH', $traversed);
+        $this->assertSame('DBHFEGAC', $traversed);
     }
 }
