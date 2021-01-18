@@ -11,15 +11,9 @@ class Node
      */
     private $value;
 
-    /**
-     * @var Vector
-     */
-    private $children;
+    private Vector $children;
 
-    /**
-     * @var Node
-     */
-    private $parent;
+    private Node $parent;
 
     /**
      * @param mixed|null $value
@@ -31,8 +25,6 @@ class Node
     }
 
     /**
-     * Set a value
-     *
      * @param mixed $value
      */
     public function setValue($value)
@@ -41,8 +33,6 @@ class Node
     }
 
     /**
-     * Get the value of the node
-     *
      * @return mixed|null
      */
     public function getValue()
@@ -51,8 +41,6 @@ class Node
     }
 
     /**
-     * Add a child node
-     *
      * @param Node $child
      */
     public function addChild(Node $child)
@@ -61,12 +49,7 @@ class Node
         $child->setParent($this);
     }
 
-    /**
-     * Set the children to an array of nodes
-     *
-     * @param array $children
-     */
-    public function setChildren(array $children)
+    public function setChildren(Node ...$children)
     {
         $this->children->clear();
 
@@ -84,111 +67,63 @@ class Node
         }
     }
 
-    /**
-     * Remove all child nodes
-     */
     public function removeChildren()
     {
         $this->children->clear();
     }
 
-    /**
-     * Get all child nodes
-     *
-     * @return array
-     */
-    public function getChildren()
+    public function getChildren(): Vector
     {
         return $this->children;
     }
 
-    /**
-     * Set a parent node
-     *
-     * @param Node $parent
-     */
     public function setParent(Node $parent)
     {
         $this->parent = $parent;
     }
 
-    /**
-     * Get the parent node
-     *
-     * @return Node
-     */
-    public function getParent()
+    public function getParent(): Node
     {
         return $this->parent;
     }
 
-    /**
-     * Whether this node is a leaf
-     *
-     * @return boolean
-     */
-    public function isLeaf()
+    public function isLeaf(): bool
     {
         return $this->children->isEmpty();
     }
 
-    /**
-     * Whether this node is a branch
-     *
-     * @return boolean
-     */
-    public function isBranch()
+    public function isBranch(): bool
     {
         return !$this->children->isEmpty();
     }
 
-    /**
-     * Whether this node is a child
-     *
-     * @return boolean
-     */
-    public function isChild()
+    public function isChild(): bool
     {
-        return null !== $this->parent;
+        return !empty($this->parent);
     }
 
-    /**
-     * Whether this node is a root
-     *
-     * @return boolean
-     */
-    public function isRoot()
+    public function isRoot(): bool
     {
-        return null === $this->parent;
+        return empty($this->parent);
     }
 
-    /**
-     * Get the root node
-     *
-     * @return Node
-     */
-    public function getRoot()
+    public function getRoot(): Node
     {
         $node = $this;
 
-        while ($parent = $node->getParent()) {
+        while ($node->isChild() && $parent = $node->getParent()) {
             $node = $parent;
         }
 
         return $node;
     }
 
-    /**
-     * Get any ancestor nodes in order of closest to furthest away
-     *
-     * @return array
-     */
-    public function getAncestors()
+    public function getAncestors(): Vector
     {
         $ancestors = new Vector;
         $node = $this;
 
-        while ($parent = $node->getParent()) {
+        while ($node->isChild() && $parent = $node->getParent()) {
             $ancestors->push($parent);
             $node = $parent;
         }
@@ -196,12 +131,7 @@ class Node
         return $ancestors;
     }
 
-    /**
-     * Get any ancestor nodes (including self) in order of closest to furthest away
-     *
-     * @return array
-     */
-    public function getAncestorsAndSelf()
+    public function getAncestorsAndSelf(): Vector
     {
         $ancestors = $this->getAncestors();
         $ancestors->unshift($this);
@@ -209,12 +139,7 @@ class Node
         return $ancestors;
     }
 
-    /**
-     * Get any sibling nodes on the same branch
-     *
-     * @return array
-     */
-    public function getSiblings()
+    public function getSiblings(): Vector
     {
         $siblings = $this->getParent()->getChildren();
         $current = $this;
@@ -224,22 +149,12 @@ class Node
         });
     }
 
-    /**
-     * Get any sibling nodes (including self) on the same branch
-     *
-     * @return array
-     */
-    public function getSiblingsAndSelf()
+    public function getSiblingsAndSelf(): Vector
     {
         return $this->getParent()->getChildren();
     }
 
-    /**
-     * Get the size of the tree from this node forwards
-     *
-     * @return int
-     */
-    public function getSize()
+    public function getSize(): int
     {
         $size = 1;
 
@@ -250,12 +165,7 @@ class Node
         return $size;
     }
 
-    /**
-     * Get the depth of the tree from this node backwards
-     *
-     * @return int
-     */
-    public function getDepth()
+    public function getDepth(): int
     {
         if ($this->isRoot()) {
             return 0;
@@ -264,12 +174,7 @@ class Node
         return $this->getParent()->getDepth() + 1;
     }
 
-    /**
-     * Get the height of the tree from this node forwards
-     *
-     * @return int
-     */
-    public function getHeight()
+    public function getHeight(): int
     {
         if ($this->isLeaf()) {
             return 0;

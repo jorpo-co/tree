@@ -8,7 +8,7 @@ use Jorpo\Tree\Traversal\TraversalAlgorithm;
 
 class PostOrderTraversal implements TraversalAlgorithm
 {
-    public function sort(Node $node): array
+    public function sort(Node $node): Vector
     {
         $nodes = new Vector;
 
@@ -16,7 +16,7 @@ class PostOrderTraversal implements TraversalAlgorithm
             $nodes->push($node);
         });
 
-        return $nodes->toArray();
+        return $nodes;
     }
 
     public function traverse(Node $node, callable $callback): void

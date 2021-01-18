@@ -26,7 +26,7 @@ class PostOrderTraversalTest extends AlgorithmTestCase
 
         list($a, $b, $c, $d, $e, $f, $g, $h) = $this->buildNodeTree();
 
-        $this->assertSame([$d, $h, $f, $g, $e, $b, $c, $a], $traversal->sort($a));
+        $this->assertSame([$d, $h, $f, $g, $e, $b, $c, $a], ($traversal->sort($a))->toArray());
     }
 
     public function testThatAlgorithmTraversesNodeTree()

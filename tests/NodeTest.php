@@ -48,7 +48,7 @@ class NodeTest extends TestCase
         $node = new Node;
         $node->addChild($child1 = new Node('child1'));
 
-        $node->setChildren([$child2 = new Node('child2')]);
+        $node->setChildren($child2 = new Node('child2'));
 
         $this->assertFalse(in_array($child1, $node->getChildren()->toArray()));
         $this->assertTrue(in_array($child2, $node->getChildren()->toArray()));

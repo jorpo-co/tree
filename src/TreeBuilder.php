@@ -4,48 +4,36 @@ namespace Jorpo\Tree;
 
 use Ds\Stack;
 use Jorpo\Tree\Node;
+use UnderflowException;
 
 class TreeBuilder
 {
-    /**
-     * @var Stack
-     */
-    private $stack;
+    private Stack $stack;
 
-    /**
-     * @param Node $node
-     */
-    public function __construct($node = null)
+    public function __construct(Node $node = null)
     {
         $this->stack = new Stack;
 
         $this->setRootNode($node ?? $this->nodeFromValue());
     }
 
-    /**
-     * Set the initial node for the tree
-     *
-     * @param Node $node
-     */
-    public function setRootNode(Node $node)
+    public function setRootNode(Node $node): TreeBuilder
     {
         $this->emptyStack()->pushNode($node);
 
         return $this;
     }
 
-    /**
-     * Get the last node from the stack
-     */
-    public function getCurrentNode()
+    public function getCurrentNode(): Node
     {
         return $this->stack->peek();
     }
 
     /**
-     * Add a leaf node
+     * @param mixed|null $value
+     * @throws UnderflowException
      */
-    public function leaf($value = null)
+    public function leaf($value = null): TreeBuilder
     {
         $this->getCurrentNode()->addChild(
             $this->nodeFromValue($value)
@@ -55,9 +43,10 @@ class TreeBuilder
     }
 
     /**
-     * Add multiple leaf nodes
+     * @param mixed $values
+     * @throws UnderflowException
      */
-    public function leaves(...$values)
+    public function leaves(...$values): TreeBuilder
     {
         foreach ($values as $value) {
             $this->leaf($value);
@@ -67,9 +56,10 @@ class TreeBuilder
     }
 
     /**
-     * Add a branch down to another level
+     * @param mixed|null $value
+     * @throws UnderflowException
      */
-    public function branch($value = null)
+    public function branch($value = null): TreeBuilder
     {
         $this->getCurrentNode()->addChild($node = $this->nodeFromValue($value));
         $this->pushNode($node);
@@ -78,9 +68,9 @@ class TreeBuilder
     }
 
     /**
-     * End a current branch
+     * @throws UnderflowException
      */
-    public function end()
+    public function end(): TreeBuilder
     {
         $this->popNode();
 
@@ -88,38 +78,42 @@ class TreeBuilder
     }
 
     /**
-     * Create a node instance from a value
+     * @param mixed|null $value
      */
-    public function nodeFromValue($value = null)
+    public function nodeFromValue($value = null): Node
     {
         return new Node($value);
     }
 
     /**
-     * Set the value of the root node
+     * @param mixed $value
+     * @throws UnderflowException
      */
-    public function value($value)
+    public function value($value): TreeBuilder
     {
         $this->getCurrentNode()->setValue($value);
 
         return $this;
     }
 
-    private function emptyStack()
+    private function emptyStack(): TreeBuilder
     {
         $this->stack->clear();
 
         return $this;
     }
 
-    private function pushNode(Node $node)
+    private function pushNode(Node $node): TreeBuilder
     {
         $this->stack->push($node);
 
         return $this;
     }
 
-    private function popNode()
+    /**
+     * @throws UnderflowException
+     */
+    private function popNode(): Node
     {
         return $this->stack->pop();
     }

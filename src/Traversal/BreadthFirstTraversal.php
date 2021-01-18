@@ -8,7 +8,7 @@ use Jorpo\Tree\Node;
 
 class BreadthFirstTraversal implements TraversalAlgorithm
 {
-    public function sort(Node $node): array
+    public function sort(Node $node): Vector
     {
         $nodes = new Vector;
 
@@ -16,7 +16,7 @@ class BreadthFirstTraversal implements TraversalAlgorithm
             $nodes->push($node);
         });
 
-        return $nodes->toArray();
+        return $nodes;
     }
 
     public function traverse(Node $node, callable $callback): void

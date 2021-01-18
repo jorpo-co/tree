@@ -23,7 +23,7 @@ class BreadthFirstTraversalTest extends AlgorithmTestCase
 
         list($a, $b, $c, $d, $e, $f, $g, $h) = $this->buildNodeTree();
 
-        $this->assertSame([$a, $b, $c, $d, $e, $f, $g, $h], $traversal->sort($a));
+        $this->assertSame([$a, $b, $c, $d, $e, $f, $g, $h], ($traversal->sort($a))->toArray());
     }
 
     public function testThatAlgorithmTraversesNodeTree()

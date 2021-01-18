@@ -26,7 +26,7 @@ class PreOrderTraversalTest extends AlgorithmTestCase
 
         list($a, $b, $c, $d, $e, $f, $g, $h) = $this->buildNodeTree();
 
-        $this->assertSame([$a, $b, $d, $e, $f, $h, $g, $c], $traversal->sort($a));
+        $this->assertSame([$a, $b, $d, $e, $f, $h, $g, $c], ($traversal->sort($a))->toArray());
     }
 
     public function testThatAlgorithmTraversesNodeTree()
