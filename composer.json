@@ -13,7 +13,7 @@
         "bin-dir": "bin"
     },
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": ">=7.1",
         "php-ds/php-ds": "^1.2"
     },
     "autoload": {
@@ -24,7 +24,7 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.1"
+        "phpunit/phpunit": ">=6"
     },
     "autoload-dev": {
         "psr-4": {
@@ -32,5 +32,7 @@
                 "tests"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

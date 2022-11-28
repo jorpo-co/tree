@@ -36,7 +36,7 @@ class PreOrderTraversalTest extends AlgorithmTestCase
         list($a) = $this->buildNodeTree();
         $traversed = "";
 
-        $traversal->traverse($a, function ($node) use (&$traversed) {
+        $traversal->traverse($a, function (Node $node) use (&$traversed) {
             $traversed .= $node->getValue();
         });
 

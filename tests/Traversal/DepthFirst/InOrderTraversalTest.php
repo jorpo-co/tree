@@ -2,6 +2,7 @@
 
 namespace Jorpo\Tree\Traversal\DepthFirst;
 
+use Jorpo\Tree\Node;
 use Jorpo\Tree\Traversal\AlgorithmTestCase;
 
 /**
@@ -35,7 +36,7 @@ class InOrderTraversalTest extends AlgorithmTestCase
         list($a) = $this->buildNodeTree();
         $traversed = "";
 
-        $traversal->traverse($a, function ($node) use (&$traversed) {
+        $traversal->traverse($a, function (Node $node) use (&$traversed) {
             $traversed .= $node->getValue();
         });
 

@@ -10,10 +10,14 @@ class Node
      * @var mixed|null
      */
     private $value;
-
-    private Vector $children;
-
-    private Node $parent;
+    /**
+     * @var Vector
+     */
+    private $children;
+    /**
+     * @var Node
+     */
+    private $parent;
 
     /**
      * @param mixed|null $value
