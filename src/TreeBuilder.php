@@ -8,7 +8,10 @@ use UnderflowException;
 
 class TreeBuilder
 {
-    private Stack $stack;
+    /**
+     * @var Stack
+     */
+    private $stack;
 
     public function __construct(Node $node = null)
     {

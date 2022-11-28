@@ -5,7 +5,7 @@ namespace Jorpo\Tree;
 use PHPUnit\Framework\TestCase;
 use Jorpo\Tree\Node;
 
-class BuilderTest extends TestCase
+class TreeBuilderTest extends TestCase
 {
     protected $builder;
 
